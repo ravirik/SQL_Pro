@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS employee(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    joining_date DATE DEFAULT '2020-01-01',
+    CONSTRAINT unique_id UNIQUE(id),
+    CONSTRAINT salary_check check(salary>5000)
+);
+
+INSERT INTO employee VALUES (1,'Rav',50000,'2022-05-09'),(2,'Rad',75851,'2021-05-07'),(4,'Div',45640,'2022-09-16'),(3,'Ruc',56222,'2023-08-23');
+
+insert into employee values(13,'Ami',30000,'2021-09-15'),(14,'Nit',35000,'2021-09-16'),(5,'Kaj',40000,'2021-09-20');
+
