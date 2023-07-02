@@ -1,0 +1,164 @@
+-- Active: 1687723925013@@127.0.0.1@3306
+-- Active: 1687723925013@@127.0.0.1@3306
+CREATE DATABASE employee;
+
+USE employee;
+
+CREATE TABLE IF NOT EXISTS employee
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    age int,
+    joining_date DATE DEFAULT '2020-01-01',
+    city VARCHAR(50)
+);
+
+SHOW TABLES;
+
+SELECT * FROM employee;
+
+Create table if not exists employee_with_constraints_tmp
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    age int,
+    city VARCHAR(50),
+    hiring_date DATE DEFAULT '2021-01-01',
+    CONSTRAINT unique_id UNIQUE (id),
+    CONSTRAINT salary_check CHECK (salary > 1000),
+    CONSTRAINT valid_age CHECK (age > 18)
+);
+
+SELECT * FROM employee_with_constraints_tmp;
+
+INSERT INTO employee_with_constraints_tmp (id, name, salary, age, city, hiring_date) VALUES
+(1, 'John Doe', 5000.00, 25, 'New York', '2022-05-15'),
+(2, 'Jane Smith', 3500.00, 30, 'Los Angeles', '2022-03-10'),
+(3, 'Michael Johnson', 1200.00, 22, 'Chicago', '2023-01-20'),
+(4, 'Emily Davis', 8000.00, 45, 'San Francisco', '2021-07-05'),
+(5, 'David Wilson', 2000.00, 19, 'Seattle', '2023-02-28');
+
+SELECT * FROM employee_with_constraints_tmp;
+
+/*
+
+UUID generates a random string id UUID stands for Universally Unique Identifier. It is a 128-bit identifier that is 
+globally unique and can be used to identify entities in a distributed computing environment. 
+UUIDs are typically represented as a sequence of alphanumeric characters separated by hyphens in the form of 
+"8-4-4-4-12" (e.g., "550e8400-e29b-41d4-a716-446655440000").
+
+*/
+INSERT INTO employee_with_constraints_tmp (id, name, salary, age, city, hiring_date) VALUES
+(UUID(), 'Sarah Johnson', 4000.00, 28, 'Chicago', '2022-09-12'),
+(UUID(), 'Robert Smith', 6000.00, 35, 'Los Angeles', '2023-04-01'),
+(UUID(), 'Olivia Davis', 2500.00, 23, 'New York', '2022-07-19'),
+(UUID(), 'William Wilson', 1500.00, 21, 'Seattle', '2023-03-05'),
+(UUID(), 'Sophia Miller', 4500.00, 32, 'San Francisco', '2022-11-30'),
+(UUID(), 'James Anderson', 1800.00, 20, 'Chicago', '2022-06-08'),
+(UUID(), 'Emma Brown', 7000.00, 40, 'Los Angeles', '2021-10-25'),
+(UUID(), 'Liam Taylor', 3000.00, 27, 'New York', '2023-06-15'),
+(UUID(), 'Ava Johnson', 5000.00, 31, 'San Francisco', '2022-12-18'),
+(UUID(), 'Noah Wilson', 2200.00, 24, 'Seattle', '2022-08-02');
+
+
+
+INSERT INTO employee_with_constraints_tmp (id, name, salary, age, city, hiring_date) VALUES
+(15, 'Sarah Johnson', 4000.00, 28, 'Chicago', '2022-09-12'),
+(25, 'Robert Smith', 6000.00, 35, 'Los Angeles', '2023-04-01'),
+(30, 'Olivia Davis', 2500.00, 23, 'New York', '2022-07-19'),
+(45, 'William Wilson', 1500.00, 21, 'Seattle', '2023-03-05'),
+(12, 'Sophia Miller', 4500.00, 32, 'San Francisco', '2022-11-30'),
+(18, 'James Anderson', 1800.00, 20, 'Chicago', '2022-06-08'),
+(22, 'Emma Brown', 7000.00, 40, 'Los Angeles', '2021-10-25'),
+(40, 'Liam Taylor', 3000.00, 27, 'New York', '2023-06-15'),
+(27, 'Ava Johnson', 5000.00, 31, 'San Francisco', '2022-12-18'),
+(36, 'Noah Wilson', 2200.00, 24, 'Seattle', '2022-08-02');
+
+SELECT * FROM employee_with_constraints_tmp;
+
+DROP TABLE employee;
+
+RENAME TABLE employee_with_constraints_tmp to employee; /* To rename table. */
+
+SHOW TABLES;
+
+SELECT * FROM employee;
+
+ALTER TABLE employee ADD DOB DATE;
+
+SELECT * FROM employee;
+
+UPDATE employee
+SET DOB = DATE_SUB(CURDATE(), INTERVAL age YEAR);
+
+SELECT * FROM employee;
+
+ALTER TABLE employee MODIFY COLUMN name VARCHAR(100);
+
+ALTER TABLE employee DROP DOB;
+
+SELECT * FROM employee;
+
+UPDATE employee
+SET salary = salary*1.5;
+
+SELECT * FROM employee;
+
+ALTER TABLE employee RENAME COLUMN hiring_date to joining_date;
+
+SELECT * FROM employee;
+
+ALTER TABLE employee ADD CONSTRAINT age_limit CHECK (age < 60);
+
+ALTER TABLE employee DROP CONSTRAINT age_limit;
+
+/* some constraint parameters, such as the definition or conditions of a check constraint, cannot be modified directly.
+In such cases, the recommended approach is to drop and recreate the constraint with the desired changes.*/
+
+ALTER TABLE employee DROP CONSTRAINT valid_age;
+
+ALTER TABLE employee ADD CONSTRAINT valid_age CHECK ( 18 < age <=60);
+
+SELECT * FROM employee;
+
+SELECT * FROM employee;
+
+Create table persons
+(
+    id int, 
+    name varchar(50), 
+    age int, 
+    constraint pk Primary Key (id)  /* Primary Key (id) */
+);
+
+SHOW TABLES;
+
+SELECT * FROM employee;
+
+DROP TABLE persons;
+
+
+SELECT * FROM employee;
+
+
+SELECT * FROM persons;
+
+INSERT INTO persons (id, name, age) VALUES
+(1, 'John Doe', 25),
+(2, 'Jane Smith', 32),
+(3, 'Michael Johnson', 42),
+(4, 'Emily Davis', 29),
+(5, 'David Wilson', 37);
+
+ALTER Table persons add constraint age_unq UNIQUE(age);
+
+INSERT INTO persons (id, name, age) VALUES /* Duplicate entry '12' for key 'persons.PRIMARY' */
+(12, 'John Wick', 25);
+
+INSERT INTO persons (id, name, age) VALUES 
+(19, 'Johnny Walker', 39);
+
+SELECT * FROM persons;
+
