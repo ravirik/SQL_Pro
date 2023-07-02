@@ -1,0 +1,43 @@
+USE employee;
+
+CREATE TABLE IF NOT EXISTS employee
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    joining_date DATE DEFAULT '2020-01-01',
+    CONSTRAINT unique_id UNIQUE(id),
+    CONSTRAINT salary_check CHECK (salary>1500)
+);
+
+SHOW TABLES;
+
+SHOW TABLES;
+
+
+
+DROP TABLE employee;
+
+CREATE TABLE IF NOT EXISTS employee
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    joining_date DATE DEFAULT '2020-01-01',
+    CONSTRAINT unique_id UNIQUE(id),
+    CONSTRAINT salary_check CHECK (salary>1500)
+);
+
+INSERT INTO employee(id,name,salary) VALUES(1,'Riky',5000);
+
+INSERT INTO employee(id,name,salary) VALUES(3,'Laxy',3000);
+
+INSERT INTO employee(id,name,salary) VALUES(2,'Roxy',7500);
+
+INSERT INTO employee VALUES (4,'Tom',6500,'2023-04-05'),(9,'Kim',8900,'2021-05-12'),(7,'Sun',4920,'2022-01-05'),(6,'Tim',2300,'2022-04-05');
+
+SELECT * FROM employee;
+
+ALTER TABLE employee ADD city VARCHAR(50), ADD age VARCHAR(50);
+
+SELECT * FROM employee ;
