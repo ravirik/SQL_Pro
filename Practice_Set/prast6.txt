@@ -1,0 +1,23 @@
+SELECT * FROM employee WHERE salary>10000;
+
+SELECT * FROM employee WHERE salary>=10000;
+
+SELECT * FROM employee WHERE salary<10000;
+
+SELECT * FROM employee WHERE salary<=10000 ORDER BY salary DESC;
+
+SELECT * FROM employee WHERE age != 20;
+
+SELECT * FROM employee WHERE age <> 20 ORDER BY age DESC;
+
+SELECT * FROM employee WHERE joining_date = '2023-01-20' AND salary<5000;
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE joining_date = '2021-07-05' OR salary<10000;
+
+SELECT * FROM employee WHERE joining_date BETWEEN '2022-01-01' AND '2023-01-01';
+
+SELECT * FROM employee WHERE joining_date BETWEEN '2022-01-01' AND '2023-01-01' ORDER BY joining_date DESC;
+
+SELECT * FROM employee WHERE salary BETWEEN 10000 AND 20000;
