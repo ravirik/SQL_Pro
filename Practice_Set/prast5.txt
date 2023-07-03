@@ -1,0 +1,181 @@
+CREATE DATABASE employee;
+
+USE employee;
+
+Create table if not exists employee
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    salary DOUBLE,
+    age int,
+    city VARCHAR(50),
+    hiring_date DATE DEFAULT '2021-01-01',
+    CONSTRAINT unique_id UNIQUE (id),
+    CONSTRAINT salary_check CHECK (salary > 1000),
+    CONSTRAINT valid_age CHECK (age > 18)
+);
+
+INSERT INTO employee (id, name, salary, age, city, joining_date) VALUES
+(1, 'John Doe', 5000.00, 25, 'New York', '2022-05-15'),
+(2, 'Jane Smith', 3500.00, 30, 'Los Angeles', '2022-03-10'),
+(3, 'Michael Johnson', 1200.00, 22, 'Chicago', '2023-01-20'),
+(4, 'Emily Davis', 8000.00, 45, 'San Francisco', '2021-07-05'),
+(5, 'David Wilson', 2000.00, 19, 'Seattle', '2023-02-28');
+
+INSERT INTO employee (id, name, salary, age, city, joining_date) VALUES
+(15, 'Sarah Johnson', 4000.00, 28, 'Chicago', '2022-09-12'),
+(25, 'Robert Smith', 6000.00, 35, 'Los Angeles', '2023-04-01'),
+(30, 'Olivia Davis', 2500.00, 23, 'New York', '2022-07-19'),
+(45, 'William Wilson', 1500.00, 21, 'Seattle', '2023-03-05'),
+(12, 'Sophia Miller', 4500.00, 32, 'San Francisco', '2022-11-30'),
+(18, 'James Anderson', 1800.00, 20, 'Chicago', '2022-06-08'),
+(22, 'Emma Brown', 7000.00, 40, 'Los Angeles', '2021-10-25'),
+(40, 'Liam Taylor', 3000.00, 27, 'New York', '2023-06-15'),
+(27, 'Ava Johnson', 5000.00, 31, 'San Francisco', '2022-12-18'),
+(36, 'Noah Wilson', 2200.00, 24, 'Seattle', '2022-08-02');
+
+SELECT * FROM employee;
+
+UPDATE employee
+SET salary = salary*1.5;
+
+ALTER TABLE employee RENAME COLUMN hiring_date to joining_date;
+
+ALTER TABLE employee DROP CONSTRAINT valid_age;
+
+
+ALTER TABLE employee ADD CONSTRAINT valid_age CHECK ( 18 < age <=60);
+
+Create table persons
+(
+    id int, 
+    name varchar(50), 
+    age int, 
+    constraint pk Primary Key (id)  /* Primary Key (id) */
+);
+
+SHOW TABLES;
+
+INSERT INTO persons (id, name, age) VALUES
+(1, 'John Doe', 25),
+(2, 'Jane Smith', 32),
+(3, 'Michael Johnson', 42),
+(4, 'Emily Davis', 29),
+(5, 'David Wilson', 37);
+
+INSERT INTO persons VALUES ( NULL,'Rahul',28);
+
+alter table persons add constraint age_unq UNIQUE(age);
+
+INSERT INTO persons VALUES (8,'Rocky',25);
+
+INSERT INTO persons VALUES (8,'Rocky',NULL);
+
+INSERT INTO persons VALUES (NULL,'AMIT',NULL);
+
+create table customer
+(
+    cust_id int,
+    name VARCHAR(50), 
+    age int,
+    constraint pk Primary Key (cust_id) 
+);
+
+CREATE Table orders
+(
+    order_id int,
+    order_num int,
+    customer_id int,
+    CONSTRAINT pk PRIMARY KEY (order_id),
+    CONSTRAINT fk FOREIGN KEY ( customer_id) REFERENCES customer ( cust_id)
+);
+
+SELECT * FROM orders;
+
+SELECT * FROM customer;
+
+SELECT * FROM employee;
+
+USE employee;
+
+
+SELECT COUNT (*) FROM employee;
+
+SELECT COUNT (*) as total_count_of_rows FROM employee;
+
+SELECT id, name, salary FROM employee;
+
+UPDATE employee
+SET SALARY= SALARY*1.5;
+
+SELECT * FROM employee;
+
+SELECT id as emp_id, age as emp_age FROM employee;
+
+SELECT DISTINCT(joining_date) as distinct_joining_date from employee;
+
+SELECT DISTINCT joining_date as distinct_joining_date, age as distinct_age from employee;
+
+SELECT * FROM employee;
+
+SELECT COUNT(DISTINCT(age)) as total_unique_ages from employee;
+
+SELECT id, name, age as earlier_age, (age+10) as current_age from employee;
+
+SELECT * FROM employee;
+
+SELECT  id,
+        name,
+        salary as old_salary, 
+        (salary + salary * 0.2) as new_salary
+FROM employee;
+
+UPDATE employee SET age = 45;
+
+SELECT * FROM employee;
+
+TRUNCATE employee;
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE age = 25;
+
+UPDATE employee SET salary = salary*2 WHERE age = 25;
+
+UPDATE employee SET salary = salary*2 WHERE age IS NOT NULL;
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE joining_date = '2021-10-25';
+
+DELETE FROM employee WHERE joining_date = '2021-10-25';
+
+SELECT * FROM employee;
+
+SELECT * FROM employee ORDER BY salary DESC;
+
+SELECT * FROM employee ORDER BY age;
+
+SELECT * FROM employee ORDER BY city;
+
+SELECT * FROM employee;
+
+SELECT * FROM employee ORDER BY salary LIMIT 1;
+
+
+SELECT * FROM employee ORDER BY salary DESC LIMIT 1;
+
+create table auto_inc_exmp
+(
+  id int auto_increment,
+  name varchar(20),
+  primary key (id)
+);
+
+insert into auto_inc_exmp(name) values('Shashank');
+insert into auto_inc_exmp(name) values('Rahul');
+
+SELECT * FROM auto_inc_exmp;
+
+SELECT * FROM employee ORDER BY salary DESC, name ASC, age ASC;
+
