@@ -1,0 +1,117 @@
+CREATE DATABASE employee;
+
+USE employee;
+
+CREATE TABLE IF NOT EXISTS employee
+(
+    id int NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    age int,
+    salary DOUBLE,
+    city VARCHAR(50),
+    joining_date DATE DEFAULT '2020-01-01',
+    CONSTRAINT unique_id UNIQUE(id),
+    CONSTRAINT salary_check CHECK (salary>10000),
+    CONSTRAINT age_limit CHECK (18<=age<=59)
+);
+
+
+INSERT INTO employee (id, name, salary, age, city, joining_date) VALUES
+(1, 'John Doe', 50000.00, 25, 'New York', '2022-05-15'),
+(2, 'Jane Smith', 35000.00, 30, 'Los Angeles', '2022-03-10'),
+(3, 'Michael Johnson', 12000.00, 22, 'Chicago', '2023-01-20'),
+(4, 'Emily Davis', 80000.00, 45, 'San Francisco', '2021-07-05'),
+(5, 'David Wilson', 20000.00, 19, 'Seattle', '2023-02-28');
+
+INSERT INTO employee (id, name, salary, age, city, joining_date) VALUES
+(15, 'Sarah Johnson', 40000.00, 28, 'Chicago', '2022-09-12'),
+(25, 'Robert Smith', 60000.00, 35, 'Los Angeles', '2023-04-01'),
+(30, 'Olivia Davis', 25000.00, 23, 'New York', '2022-07-19'),
+(45, 'William Wilson', 15000.00, 21, 'Seattle', '2023-03-05'),
+(12, 'Sophia Miller', 45000.00, 32, 'San Francisco', '2022-11-30'),
+(18, 'James Anderson', 18000.00, 20, 'Chicago', '2022-06-08'),
+(22, 'Emma Brown', 70000.00, 40, 'Los Angeles', '2021-10-25'),
+(40, 'Liam Taylor', 30000.00, 27, 'New York', '2023-06-15'),
+(27, 'Ava Johnson', 50000.00, 31, 'San Francisco', '2022-12-18'),
+(36, 'Noah Wilson', 22000.00, 24, 'Seattle', '2022-08-02');
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE name LIKE 'S%';
+
+SELECT * FROM employee WHERE name LIKE 'R%';
+
+SELECT * FROM employee WHERE name LIKE 'Mi%';
+
+SELECT * FROM employee WHERE name LIKE '%r';
+
+SELECT * FROM employee WHERE name LIKE 's%r';
+
+SELECT * FROM employee WHERE name LIKE '____________';
+
+SELECT * FROM employee WHERE name LIKE '%_________%';
+
+INSERT INTO employee (id, name, salary, age, joining_date) VALUES
+(21, 'Johnny Depp', 55000.00, 29, '2022-05-15'),
+(28, 'John Smith', 38000.00, 39, '2022-03-10');
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE city IS NULL;
+
+SELECT * FROM employee WHERE city IS NOT NULL;
+
+CREATE TABLE order_data
+(
+ cust_id int,
+ order_id int,
+ country varchar(50),
+ state varchar(50)
+);
+
+
+INSERT INTO order_data(cust_id, order_id, country, state) VALUES(1,100,'USA','Seattle'),(2,101,'INDIA','UP'),(2,103,'INDIA','Bihar'),(4,108,'USA','WDC'),(5,109,'UK','London'),(4,110,'USA','WDC'),(3,120,'INDIA','AP'),(2,121,'INDIA','Goa'),(1,131,'USA','Seattle'),(6,142,'USA','Seattle'),(7,150,'USA','Seattle');
+
+SELECT * FROM order_data;
+
+SELECT country, COUNT(*) as sales_by_country FROM order_data GROUP BY country;
+
+SELECT age, SUM(salary) as salary_by_age FROM employee GROUP BY age;
+
+SELECT age, 
+         SUM(salary) as salary_by_age,
+         MAX(salary) as max_salary_by_age,
+         MIN(salary) as min_salary_by_age,
+         AVG(salary) as average_salary_by_age,
+         COUNT(salary) as count_salary_by_age
+FROM employee GROUP BY age;
+
+SELECT country FROM order_data GROUP BY country HAVING COUNT(*) =1;
+
+/* # Where Clause and Group By Clause --> What should be the proper sequence??
+# Answer -> Where Clause and then Group By ?? */
+
+SELECT country, GROUP_CONCAT(state) as state_of_the_country FROM order_data GROUP BY country;
+
+SELECT country, GROUP_CONCAT(DISTINCT state) as distinct_state_of_the_country FROM order_data GROUP BY country;
+
+SELECT country, GROUP_CONCAT(DISTINCT state ORDER BY state DESC) as distinct_state_of_the_country FROM order_data GROUP BY country;
+
+SELECT country, GROUP_CONCAT(DISTINCT state ORDER BY state ASC) as distinct_state_of_the_country FROM order_data GROUP BY country;
+
+SELECT country, GROUP_CONCAT(DISTINCT state ORDER BY state DESC SEPARATOR '<->') as distinct_state_of_the_country FROM order_data GROUP BY country;
+
+CREATE TABLE employees(
+    id int,
+    name VARCHAR(50),
+    salary int
+);
+
+
+INSERT INTO employees( id,name,salary) VALUES(1,'Shashank',5000),(2,'Amit',5500),(3,'Rahul',7000),(4,'Rohit',6000),(5,'Nitin',4000),(6,'Sunny',7500);
+
+SELECT * FROM employees;
+
+SELECT * FROM employees WHERE salary > (SELECT salary FROM employees WHERE NAME = 'Rohit');
+
+SELECT * FROM order_data WHERE state IN ('Seattle', 'Goa');
