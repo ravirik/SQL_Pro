@@ -1,0 +1,161 @@
+CREATE DATABASE employee;
+
+USE employee;
+
+create table employees
+(
+    id int,
+    name varchar(50),
+    salary int
+);
+
+insert into employees values(1,'Shashank',5000),(2,'Amit',5500),(3,'Rahul',7000),(4,'Rohit',6000),(5,'Nitin',4000),(6,'Sunny',7500);
+
+SELECT * from employees;
+
+SELECT * FROM employees WHERE salary > (SELECT salary FROM employees WHERE name = 'Rohit');
+
+create table orders_data
+(
+ cust_id int,
+ order_id int,
+ country varchar(50),
+ state varchar(50)
+);
+
+INSERT INTO orders_data(cust_id, order_id, country, state) VALUES(1,100,'USA','Seattle'),(2,101,'INDIA','UP'),(2,103,'INDIA','Bihar'),(4,108,'USA','WDC'),(5,109,'UK','London'),(4,110,'USA','WDC'),(3,120,'INDIA','AP'),(2,121,'INDIA','Goa'),(1,131,'USA','Seattle'),(6,142,'USA','Seattle'),(7,150,'USA','Seattle');
+
+SELECT * FROM orders_data WHERE state IN ('Seattle', 'Goa');
+
+create table customer_order_data
+(
+    order_id int,
+    cust_id int,
+    supplier_id int,
+    cust_country varchar(50)
+);
+
+insert into customer_order_data values(101,200,300,'USA'),(102,201,301,'INDIA'),(103,202,302,'USA'),(104,203,303,'UK');
+
+create table supplier_data
+(
+    supplier_id int,
+    sup_country varchar(50)
+);
+insert into supplier_data values(300,'USA'),(303,'UK');
+
+SELECT * FROM customer_order_data WHERE cust_country IN ( SELECT DISTINCT sup_country FROM supplier_data);
+
+create table tree
+(
+    node int,
+    parent int
+);
+
+insert into tree values (5,8),(9,8),(4,5),(2,9),(1,5),(3,9),(8,null);
+
+select * from tree;
+
+select node,
+       CASE
+            when node not in (select distinct parent from tree where parent is not null) then 'LEAF'
+            when parent is null then 'ROOT'
+            else 'INNER'
+       END as node_type
+from tree;
+
+create table orders
+(
+    order_id int,
+    cust_id int,
+    order_dat date, 
+    shipper_id int
+);
+
+create table customers
+(
+    cust_id int,
+    cust_name varchar(50),
+    country varchar(50)
+);
+
+create table shippers
+(
+    ship_id int,
+    shipper_name varchar(50)
+);
+
+insert into orders values(10308, 2, '2022-09-15', 3);
+insert into orders values(10309, 30, '2022-09-16', 1);
+insert into orders values(10310, 41, '2022-09-19', 2);
+
+insert into customers values(1, 'Neel', 'India');
+insert into customers values(2, 'Nitin', 'USA');
+insert into customers values(3, 'Mukesh', 'UK');
+
+insert into shippers values(3,'abc');
+insert into shippers values(1,'xyz');
+
+SELECT * FROM orders;
+
+SELECT * FROM shippers;
+
+SELECT * FROM customers;
+
+SELECT
+o.*, c.* 
+FROM orders o
+INNER JOIN customers c
+ON o.cust_id = c.cust_id;
+
+select 
+o.*, c.*
+from orders o
+left join customers c on o.cust_id = c.cust_id;
+
+SELECT
+o.*, c.*
+FROM orders o 
+RIGHT JOIN customers c ON o.cust_id = c.cust_id;
+
+SELECT
+o.*,c.*
+FROM orders o
+CROSS JOIN customers c ON o.cust_id = c.cust_id;
+
+SELECT
+o.*, c.*
+FROM orders o
+CROSS JOIN customers c;
+
+SELECT * FROM orders CROSS JOIN customers;
+
+SELECT * FROM orders CROSS JOIN customers ON orders.cust_id = customers.cust_id;
+
+SELECT * FROM orders FULL JOIN customers;
+
+SELECT
+c.*,o.*,s.*
+FROM orders o
+INNER JOIN customers c ON o.cust_id = c.cust_id
+INNER JOIN shippers s ON o.shipper_id = s.ship_id;
+
+create table employees_full_data
+(
+    emp_id int,
+    name varchar(50),
+    mgr_id int
+);
+
+insert into employees_full_data values(1, 'Shashank', 3);
+insert into employees_full_data values(2, 'Amit', 3);
+insert into employees_full_data values(3, 'Rajesh', 4);
+insert into employees_full_data values(4, 'Ankit', 6);
+insert into employees_full_data values(6, 'Nikhil', null);
+
+SELECT * FROM employees_full_data;
+
+SELECT 
+emp.name as manager
+FROM employees_full_data emp
+INNER JOIN (SELECT DISTINCT mgr_id as mgr_id from employees_full_data) mgr on mgr.mgr_id = emp.emp_id
